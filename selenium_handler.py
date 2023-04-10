@@ -34,7 +34,7 @@ class SeleniumHandler():
     def open_url(self, url: str):
         self._driver.get(url)
 
-    def switch_to_frame(self, by: By, value: Union[str, None] = None):
+    def switch_to_frame(self, value: str, by: Union[By, None] = None):
         if value is None:
             self._driver.switch_to.frame(value)
         else:
