@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["pyautogui"]
+  "cSpell.words": ["pyautogui"],
+  "python.linting.mypyEnabled": true
 }

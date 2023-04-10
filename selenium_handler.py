@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 import pyautogui
 import logging
 import traceback
+from typing import Union
 
 logger = logging.getLogger(__name__)
 
@@ -27,28 +28,28 @@ class SeleniumHandler():
         # 待機時間の設定,wait_time秒以上経つとエラーになる
         self._wait = WebDriverWait(self._driver, wait_time)
 
-    def _wait_element(self, by: By.ID, value: str):
+    def _wait_element(self, by: By, value: str):
         self._wait.until(EC.presence_of_element_located((by, value)))
 
     def open_url(self, url: str):
         self._driver.get(url)
 
-    def switch_to_frame(self, by: By.ID, value: str):
-        self._wait_element(by, value)
-        self._driver.switch_to.frame(
-            self._driver.find_element(by, value))
-
-    def switch_to_frame(self, value: str):
-        self._driver.switch_to.frame(value)
+    def switch_to_frame(self, by: By, value: Union[str, None] = None):
+        if value is None:
+            self._driver.switch_to.frame(value)
+        else:
+            self._wait_element(by, value)
+            self._driver.switch_to.frame(
+                self._driver.find_element(by, value))
 
     def switch_to_default_frame(self):
         self._driver.switch_to.default_content()
 
-    def get_text(self, by: By.ID, value: str):
+    def get_text(self, by: By, value: str):
         self._wait_element(by, value)
         return self._driver.find_element(by, value).text
 
-    def click(self, by: By.ID, value: str):
+    def click(self, by: By, value: str):
         self._wait_element(by, value)
         self._driver.find_element(by, value).click()
 
